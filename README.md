@@ -1,1 +1,1 @@
-# leetcode-go
+# leetcode
