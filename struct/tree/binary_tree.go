@@ -176,3 +176,81 @@ func postorderTraversalByRecursive(root *TreeNode) []int {
 
 	return result
 }
+
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func levelOrder(root *TreeNode) [][]int {
+	var result [][]int
+	var queue = NewQueue(100)
+	var currentLast *TreeNode
+	var nextLast *TreeNode
+	var tmp []int
+	if root != nil {
+		queue.Enqueue(root)
+		currentLast = root
+		for queue.size > 0 {
+			cur := queue.Peek().(*TreeNode)
+			queue.Dequeue()
+			tmp = append(tmp, cur.Val)
+			if cur.Left != nil {
+				queue.Enqueue(cur.Left)
+				nextLast = cur.Left
+			}
+			if cur.Right != nil {
+				queue.Enqueue(cur.Right)
+				nextLast = cur.Right
+			}
+			if cur == currentLast {
+				currentLast = nextLast
+				result = append(result, tmp)
+				tmp = make([]int, 10)
+			}
+		}
+	}
+
+	return result
+}
+
+type Queue struct {
+	elements []interface{}
+	size     int
+}
+
+func NewQueue(cap int) *Queue {
+	q := new(Queue)
+	q.elements = make([]interface{}, 0, cap)
+	q.size = 0
+	return q
+}
+
+func (q *Queue) Enqueue(elements interface{}) {
+	q.elements = append(q.elements, elements)
+	q.size++
+}
+
+func (q *Queue) Dequeue() interface{} {
+	if !q.IsEmpty() {
+		front := q.elements[0]
+		q.elements = q.elements[1:]
+		q.size--
+		return front
+	}
+	return nil
+}
+
+func (q *Queue) Peek() interface{} {
+	if !q.IsEmpty() {
+		return q.elements[0]
+	}
+	return nil
+}
+
+func (q *Queue) IsEmpty() bool {
+	return q.size == 0
+}
