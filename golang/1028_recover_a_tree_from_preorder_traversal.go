@@ -1,20 +1,5 @@
 package golang
 
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-
-type TreeNode struct {
-    Val   int
-    Left  *TreeNode
-    Right *TreeNode
-}
-
 func recoverFromPreorder(S string) *TreeNode {
     path, pos := []*TreeNode{}, 0
     for pos < len(S) {
